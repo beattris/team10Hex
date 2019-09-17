@@ -10,7 +10,12 @@ if (!isset($_POST['email'], $_POST['password'])) {
     die('Please fill both the email and password field!');
 }
 
-// Using prepered SQL statements to prevent SQL injection
+if (empty($_POST['email']) || empty($_POST['password'])) {
+    // email or password field empty
+    die('Email and password are required');
+}
+
+// Using prepared SQL statements to prevent SQL injection
 if ($stmt = $db->prepare('SELECT id, name, password FROM users WHERE email = ?')) {
     $stmt->bind_param('s', $_POST['email']);
     $stmt->execute();
@@ -21,8 +26,8 @@ if ($stmt->num_rows > 0) {
     $stmt->bind_result($id, $name, $password);
     $stmt->fetch();
     // Account exists, now we verify the password.
-    // Note: remember to use password_hash in your registration file to store the hashed passwords.
     if (password_verify($_POST['password'], $password)) {
+        //if password matches log in users using session
         session_regenerate_id();
         $_SESSION['loggedin'] = TRUE;
         $_SESSION['name'] = $name;
