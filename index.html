@@ -114,10 +114,14 @@
         xmlhttp.open("POST", "backend/login.php", true);
 
         xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            alert(this.responseText);
+          if (this.readyState == 4) {
+            if (this.status == 200) {
+              window.location = "backend/home.php";
+            } else {
+              alert(this.responseText);
+            }
+
             document.querySelector("form").reset();
-            window.location = "/backend/home.php";
           }
         };
 

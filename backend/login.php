@@ -33,11 +33,14 @@ if ($stmt->num_rows > 0) {
         $_SESSION['name'] = $name;
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['id'] = $id;
-        echo 'Welcome ' . $_SESSION['name'] . '!';
+
+        header('Location: home.php');
     } else {
+        http_response_code(401);
         echo 'Incorrect password!';
     }
 } else {
+    http_response_code(401);
     echo 'Incorrect email!';
 }
 $stmt->close();
