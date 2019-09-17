@@ -20,14 +20,14 @@ if ($stmt = $db->prepare('SELECT id FROM users WHERE email = ?')) {
     // Store the result so we can check if the account exists in our database.
     if ($stmt->num_rows > 0) {
         // Username already exists
-        echo 'Email exists, please choose another!';
+        echo 'Email exists, please choose another one !';
     } else {
         if ($stmt = $db->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)')) {
 
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $stmt->bind_param('sss', $_POST['name'], $_POST['email'], $password);
             $stmt->execute();
-            echo 'You have successfully registered, you can now login!';
+            echo 'You have successfully registered, you can now login!! ';
         } else {
 
             echo 'Could not prepare statement!';
