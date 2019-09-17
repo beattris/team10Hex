@@ -59,11 +59,16 @@
             </div>
 
             <div class="button">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary" id="loginBtn">
+                Login
+              </button>
             </div>
 
             <small id="Forget-Pass" class="form-text text-muted">
               Forget password?
+            </small>
+            <small id="Forget-Pass" class="form-text text-muted">
+              <a href="register.html">Create Account</a>
             </small>
           </form>
         </div>
@@ -95,5 +100,38 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script>
+      document.getElementById("loginBtn").addEventListener("click", $event => {
+        $event.preventDefault();
+
+        const data = {
+          email: document.getElementById("InputEmail1").value,
+          password: document.getElementById("InputPassword1").value
+        };
+
+        const xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("POST", "backend/login.php", true);
+
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4) {
+            if (this.status == 200) {
+              window.location = "backend/home.php";
+            } else {
+              alert(this.responseText);
+            }
+
+            document.querySelector("form").reset();
+          }
+        };
+
+        xmlhttp.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+
+        xmlhttp.send("email=" + data.email + "&password=" + data.password);
+      });
+    </script>
   </body>
 </html>
